@@ -30,5 +30,32 @@ Sent a fake PR notification to my bot
 Bot received it and printed it in terminal
 That moment = 🤯🔥
 
+## Day 4 - 28 May 2026
+What I did:
+
+Installed and configured ngrok
+Got public URL for my local server
+Connected real GitHub webhook to PRSentry
+Opened a real PR and bot received real data ✅
+Completed Phase 1! 🎉
+
+What I learned:
+
+ngrok = gives laptop a public address so GitHub can reach it
+127.0.0.1 = only visible on my laptop
+ngrok URL = visible to entire internet
+GitHub webhook settings = where GitHub sends PR notifications
+Every time terminals close → bot stops (fixed in Phase 5 with Render)
+
+Big moment:
+
+Saw REAL GitHub PR data printing in my terminal
+Bot received action: opened, PR title, changed files, everything!
+Phase 1 complete in just 4 days! 🛡️
+
+
+
+
+
 
 
