@@ -54,7 +54,12 @@ Bot received action: opened, PR title, changed files, everything!
 Phase 1 complete in just 4 days! 🛡️
 
 
-
+## Day 5 - 29 May 2026
+- Installed PyGithub and python-dotenv
+- Created .env file to store token safely
+- Created .gitignore to protect secrets
+- Bot almost posting comments — 401 auth error
+- Tomorrow: fix token and bot posts first comment!
 
 
 
