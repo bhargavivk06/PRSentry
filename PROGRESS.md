@@ -61,6 +61,31 @@ Phase 1 complete in just 4 days! 🛡️
 - Bot almost posting comments — 401 auth error
 - Tomorrow: fix token and bot posts first comment!
 
+- ## Day 6 - 6 August 2026
+
+**What I did:**
+- Generated new GitHub Personal Access Token
+- Updated .env file with new token
+- Fixed 401 authentication error
+- Bot successfully posted first comment on a real PR! ✅
+
+**What I learned:**
+- GitHub PAT = bot's password to access GitHub
+- .env file = safe place to store secrets
+- .gitignore = prevents secrets from going to GitHub
+- PyGithub = Python library to talk to GitHub API
+- 401 error = authentication failed (token expired/wrong)
+
+**Big moment:**
+- Opened a real PR
+- Bot automatically commented "PRSentry is watching this PR!"
+- Phase 2 Week 5 COMPLETE! 🎉
+
+**Current bot abilities:**
+- ✅ Receives GitHub webhooks
+- ✅ Authenticates with GitHub
+- ✅ Posts comments on PRs automatically!
+
 
 
 
