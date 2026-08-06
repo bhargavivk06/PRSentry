@@ -1,5 +1,5 @@
 # PRSentry - AI Code Review Bot
-#testing bbot commentgit 
+#testing bot comment
 # Phase 2 test
 from fastapi import FastAPI, Request
 from github import Github
