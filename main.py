@@ -1,6 +1,7 @@
 # PRSentry - AI Code Review Bot
 #testing bot comment
 # Phase 2 test
+#week 6 test
 from fastapi import FastAPI, Request
 from github import Github
 from dotenv import load_dotenv
@@ -24,8 +25,21 @@ async def webhook(request: Request):
     if data.get("action") == "opened":
         repo_name=data["repository"]["full_name"]
         pr_number=data["pull_request"]["number"]
+        pr_title=data["pull_request"]["title"]
+        additions=data["pull_request"]["additions"]
+        deletions=data["pull_request"]["deletions"]
+        changed_files==data["pull_request"]["changed_files"]
 
         repo=g.get_repo(repo_name)
         pr=repo.get_pull(pr_number)
-        pr.create_issue_comment("PRSentry is watching this PR!")
+
+        comment = f"""🛡️ PRSentry Review
+
+📋 PR Title: {pr_title}
+📁 Files Changed: {changed_files}
+➕ Additions: {additions}
+➖ Deletions: {deletions}
+
+PRSentry is analyzing your code... AI review coming soon!"""
+        pr.create_issue_comment(comment)
     return {"status": "recieved"}
