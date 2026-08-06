@@ -1,7 +1,7 @@
 # PRSentry - AI Code Review Bot
 #testing bot comment
 # Phase 2 test
-#week 6 test
+#week 6 test 2
 from fastapi import FastAPI, Request
 from github import Github
 from dotenv import load_dotenv
@@ -28,7 +28,7 @@ async def webhook(request: Request):
         pr_title=data["pull_request"]["title"]
         additions=data["pull_request"]["additions"]
         deletions=data["pull_request"]["deletions"]
-        changed_files==data["pull_request"]["changed_files"]
+        changed_files=data["pull_request"]["changed_files"]
 
         repo=g.get_repo(repo_name)
         pr=repo.get_pull(pr_number)
