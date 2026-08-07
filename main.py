@@ -10,7 +10,9 @@ import os
 load_dotenv()
 
 token = os.getenv("GITHUB_TOKEN")
+claude_key=os.getenv("ANTHROPIC_API_KEY")
 g=Github(token)
+claaude=anthropic.Anthropic(api_key=claude_key)
 
 app=FastAPI()
 
@@ -29,9 +31,45 @@ async def webhook(request: Request):
         additions=data["pull_request"]["additions"]
         deletions=data["pull_request"]["deletions"]
         changed_files=data["pull_request"]["changed_files"]
+        diff_url=data["pull_request"]["diff_url"]
 
         repo=g.get_repo(repo_name)
         pr=repo.get_pull(pr_number)
+
+        files=pr.get_files()
+        code_diff=""
+        for file in files:
+            code_diff+=f"\nFile: {file.filename}\n"
+            if file.patch:
+                code_diff+=file.patch
+
+        message=claude.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=1000,
+            messages=[
+                {
+                    "role":"user",
+                    "content":f"""You are PRSentry,an AI code reviewer.
+Review this pull Request and give helpful feedback.
+
+PR Title:{pr_title}
+Files Changed:{changed_files}
+Additions:{additions}
+Deletions:{deletions}
+
+Code Changes:
+{code_diff}
+
+Give a concise  review with:
+1.overall assessment
+2.issues found(if any)
+3.suggestions for improvement
+keep it short and helpful!"""
+                }
+            ]
+        )
+
+        ai_review=message.content[0].text
 
         comment = f"""🛡️ PRSentry Review
 
