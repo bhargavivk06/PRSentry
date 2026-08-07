@@ -6,13 +6,14 @@ from fastapi import FastAPI, Request
 from github import Github
 from dotenv import load_dotenv
 import os
+import anthropic
 
 load_dotenv()
 
 token = os.getenv("GITHUB_TOKEN")
 claude_key=os.getenv("ANTHROPIC_API_KEY")
 g=Github(token)
-claaude=anthropic.Anthropic(api_key=claude_key)
+claude=anthropic.Anthropic(api_key=claude_key)
 
 app=FastAPI()
 
@@ -78,6 +79,7 @@ keep it short and helpful!"""
 ➕ Additions: {additions}
 ➖ Deletions: {deletions}
 
-PRSentry is analyzing your code... AI review coming soon!"""
+🤖 AI Review:
+{ai_review}"""
         pr.create_issue_comment(comment)
     return {"status": "recieved"}
