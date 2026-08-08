@@ -1,79 +1,68 @@
 # PRSentry - AI Code Review Bot
-#testing bot comment
-# Phase 2 test
-#week 6 test 2
-#ai tst
 from fastapi import FastAPI, Request
 from github import Github
 from dotenv import load_dotenv
+import google.generativeai as genai
 import os
-import anthropic
 
 load_dotenv()
 
 token = os.getenv("GITHUB_TOKEN")
-claude_key=os.getenv("ANTHROPIC_API_KEY")
-g=Github(token)
-claude=anthropic.Anthropic(api_key=claude_key)
+gemini_key = os.getenv("GEMINI_API_KEY")
 
-app=FastAPI()
+g = Github(token)
+genai.configure(api_key=gemini_key)
+model = genai.GenerativeModel("gemini-1.5-flash")
+
+app = FastAPI()
 
 @app.get("/")
 def home():
-    return {"message":"Bot is alive!"}
+    return {"message": "Bot is alive!"}
 
 @app.post("/webhook")
 async def webhook(request: Request):
-    data=await request.json()
-   
+    data = await request.json()
+    
     if data.get("action") == "opened":
-        repo_name=data["repository"]["full_name"]
-        pr_number=data["pull_request"]["number"]
-        pr_title=data["pull_request"]["title"]
-        additions=data["pull_request"]["additions"]
-        deletions=data["pull_request"]["deletions"]
-        changed_files=data["pull_request"]["changed_files"]
-        diff_url=data["pull_request"]["diff_url"]
+        repo_name = data["repository"]["full_name"]
+        pr_number = data["pull_request"]["number"]
+        pr_title = data["pull_request"]["title"]
+        additions = data["pull_request"]["additions"]
+        deletions = data["pull_request"]["deletions"]
+        changed_files = data["pull_request"]["changed_files"]
 
-        repo=g.get_repo(repo_name)
-        pr=repo.get_pull(pr_number)
+        repo = g.get_repo(repo_name)
+        pr = repo.get_pull(pr_number)
 
-        files=pr.get_files()
-        code_diff=""
+        files = pr.get_files()
+        code_diff = ""
         for file in files:
-            code_diff+=f"\nFile: {file.filename}\n"
+            code_diff += f"\nFile: {file.filename}\n"
             if file.patch:
-                code_diff+=file.patch
+                code_diff += file.patch
 
-        message=claude.messages.create(
-            model="claude-sonnet-4-6",
-            max_tokens=1000,
-            messages=[
-                {
-                    "role":"user",
-                    "content":f"""You are PRSentry,an AI code reviewer.
-Review this pull Request and give helpful feedback.
+        prompt = f"""You are PRSentry, an AI code reviewer.
+Review this Pull Request and give helpful feedback.
 
-PR Title:{pr_title}
-Files Changed:{changed_files}
-Additions:{additions}
-Deletions:{deletions}
+PR Title: {pr_title}
+Files Changed: {changed_files}
+Additions: {additions}
+Deletions: {deletions}
 
 Code Changes:
 {code_diff}
 
-Give a concise  review with:
-1.overall assessment
-2.issues found(if any)
-3.suggestions for improvement
-keep it short and helpful!"""
-                }
-            ]
-        )
+Give a concise review with:
+1. Overall assessment
+2. Issues found (if any)
+3. Suggestions for improvement
+Keep it short and helpful!"""
 
-        ai_review=message.content[0].text
+        response = model.generate_content(prompt)
+        ai_review = response.text
 
-        comment = f"""🛡️ PRSentry Review
+        comment = f"""🛡️ PRSentry AI Review
 
 📋 PR Title: {pr_title}
 📁 Files Changed: {changed_files}
@@ -82,5 +71,7 @@ keep it short and helpful!"""
 
 🤖 AI Review:
 {ai_review}"""
+
         pr.create_issue_comment(comment)
-    return {"status": "recieved"}
+
+    return {"status": "received"}
