@@ -18,6 +18,25 @@ app = FastAPI()
 @app.get("/")
 def home():
     return {"message": "Bot is alive!"}
+def detect_language(files):
+    extensions = {
+        '.py': 'Python',
+        '.js': 'JavaScript',
+        '.java': 'Java',
+        '.cpp': 'C++',
+        '.c': 'C',
+        '.ts': 'TypeScript',
+        '.html': 'HTML',
+        '.css': 'CSS'
+    }
+    
+    languages = set()
+    for file in files:
+        ext = os.path.splitext(file.filename)[1]
+        if ext in extensions:
+            languages.add(extensions[ext])
+    
+    return list(languages) if languages else ['Unknown']
 
 @app.post("/webhook")
 async def webhook(request: Request):
@@ -35,6 +54,7 @@ async def webhook(request: Request):
         pr = repo.get_pull(pr_number)
 
         files = pr.get_files()
+        languages = detect_language(files)
         code_diff = ""
         for file in files:
             code_diff += f"\nFile: {file.filename}\n"
@@ -74,6 +94,7 @@ Keep it short and helpful!"""
 📁 Files Changed: {changed_files}
 ➕ Additions: {additions}
 ➖ Deletions: {deletions}
+🔤 Languages: {', '.join(languages)}
 
 🤖 AI Review:
 {ai_review}"""
