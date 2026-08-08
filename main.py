@@ -37,7 +37,22 @@ def detect_language(files):
             languages.add(extensions[ext])
     
     return list(languages) if languages else ['Unknown']
-
+def check_issues(code_diff):
+    issues = []
+    
+    if "password" in code_diff.lower() and "=" in code_diff:
+        issues.append("⚠️ Possible hardcoded password detected!")
+    
+    if "print(" in code_diff:
+        issues.append("⚠️ print() statements found — remove before production!")
+    
+    if "TODO" in code_diff:
+        issues.append("⚠️ TODO comments found — make sure to address them!")
+    
+    if "except:" in code_diff:
+        issues.append("⚠️ Bare except clause found — catch specific exceptions!")
+    
+    return issues
 @app.post("/webhook")
 async def webhook(request: Request):
     data = await request.json()
@@ -55,6 +70,7 @@ async def webhook(request: Request):
 
         files = pr.get_files()
         languages = detect_language(files)
+        issues = check_issues(code_diff)
         code_diff = ""
         for file in files:
             code_diff += f"\nFile: {file.filename}\n"
@@ -96,6 +112,9 @@ Keep it short and helpful!"""
 ➖ Deletions: {deletions}
 🔤 Languages: {', '.join(languages)}
 
+
+⚠️ Issues Found:
+{chr(10).join(issues) if issues else '✅ No issues found!'}
 🤖 AI Review:
 {ai_review}"""
 
