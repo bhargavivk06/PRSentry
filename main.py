@@ -2,17 +2,16 @@
 from fastapi import FastAPI, Request
 from github import Github
 from dotenv import load_dotenv
-import google.generativeai as genai
+from groq import Groq
 import os
 
 load_dotenv()
 
 token = os.getenv("GITHUB_TOKEN")
-gemini_key = os.getenv("GEMINI_API_KEY")
+groq_key = os.getenv("GROQ_API_KEY")
 
 g = Github(token)
-genai.configure(api_key=gemini_key)
-model = genai.GenerativeModel("gemini-1.5-pro")
+groq_client = Groq(api_key=groq_key)
 
 app = FastAPI()
 
@@ -42,7 +41,12 @@ async def webhook(request: Request):
             if file.patch:
                 code_diff += file.patch
 
-        prompt = f"""You are PRSentry, an AI code reviewer.
+        response = groq_client.chat.completions.create(
+            model="llama3-8b-8192",
+            messages=[
+                {
+                    "role": "user",
+                    "content": f"""You are PRSentry, an AI code reviewer.
 Review this Pull Request and give helpful feedback.
 
 PR Title: {pr_title}
@@ -58,9 +62,11 @@ Give a concise review with:
 2. Issues found (if any)
 3. Suggestions for improvement
 Keep it short and helpful!"""
+                }
+            ]
+        )
 
-        response = model.generate_content(prompt)
-        ai_review = response.text
+        ai_review = response.choices[0].message.content
 
         comment = f"""🛡️ PRSentry AI Review
 
