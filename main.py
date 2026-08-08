@@ -70,13 +70,13 @@ async def webhook(request: Request):
 
         files = pr.get_files()
         languages = detect_language(files)
-        issues = check_issues(code_diff)
+       
         code_diff = ""
         for file in files:
             code_diff += f"\nFile: {file.filename}\n"
             if file.patch:
                 code_diff += file.patch
-
+        issues = check_issues(code_diff)
         response = groq_client.chat.completions.create(
            model="llama-3.3-70b-versatile",
             messages=[
