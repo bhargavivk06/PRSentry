@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRSentry 🛡️</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #0d1117; color: #c9d1d9; }
+        .hero { text-align: center; padding: 80px 20px; }
+        .hero h1 { font-size: 3em; color: #58a6ff; margin-bottom: 20px; }
+        .hero p { font-size: 1.2em; color: #8b949e; margin-bottom: 40px; }
+        .badge { background: #21262d; border: 1px solid #30363d; padding: 5px 15px; border-radius: 20px; display: inline-block; margin: 5px; }
+        .features { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; padding: 40px 20px; }
+        .feature-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 30px; width: 250px; text-align: center; }
+        .feature-card h3 { color: #58a6ff; margin-bottom: 10px; }
+        .how-to { text-align: center; padding: 40px 20px; }
+        .how-to h2 { color: #58a6ff; margin-bottom: 30px; font-size: 2em; }
+        .steps { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 30px; max-width: 600px; margin: 0 auto; text-align: left; }
+        .steps p { margin: 10px 0; line-height: 1.8; }
+        .url-box { background: #0d1117; border: 1px solid #58a6ff; border-radius: 5px; padding: 10px 20px; font-family: monospace; color: #58a6ff; margin: 20px auto; display: inline-block; }
+        .footer { text-align: center; padding: 40px; color: #8b949e; border-top: 1px solid #30363d; }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>🛡️ PRSentry</h1>
+        <p>AI-powered GitHub Pull Request Review Bot</p>
+        <span class="badge">🤖 Llama 3.3</span>
+        <span class="badge">⚡ FastAPI</span>
+        <span class="badge">🐍 Python</span>
+        <span class="badge">🆓 Free</span>
+    </div>
+
+    <div class="features">
+        <div class="feature-card">
+            <h3>🤖 AI Review</h3>
+            <p>Intelligent code review using Llama 3.3 AI</p>
+        </div>
+        <div class="feature-card">
+            <h3>⚠️ Issue Detection</h3>
+            <p>Finds hardcoded passwords, print statements and more</p>
+        </div>
+        <div class="feature-card">
+            <h3>📊 Complexity Score</h3>
+            <p>Tells you if your PR is too large to review safely</p>
+        </div>
+        <div class="feature-card">
+            <h3>🔤 Language Detection</h3>
+            <p>Detects Python, JavaScript, Java and more!</p>
+        </div>
+    </div>
+
+    <div class="how-to">
+        <h2>How to Use PRSentry</h2>
+        <div class="steps">
+            <p>1️⃣ Go to your GitHub repo settings</p>
+            <p>2️⃣ Click <strong>Webhooks → Add webhook</strong></p>
+            <p>3️⃣ Set Payload URL to:</p>
+            <div class="url-box">https://prsentry-2m0a.onrender.com/webhook</div>
+            <p>4️⃣ Set Content type to <strong>application/json</strong></p>
+            <p>5️⃣ Select <strong>Pull requests</strong> events</p>
+            <p>6️⃣ Click <strong>Add webhook</strong></p>
+            <p>7️⃣ Open a PR and watch PRSentry review it! 🎉</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Built with ❤️ by Bhargavi | 
+        <a href="https://github.com/bhargavivk06/PRSentry" style="color: #58a6ff;">GitHub</a></p>
+    </div>
+</body>
+</html>
