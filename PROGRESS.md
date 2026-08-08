@@ -86,6 +86,76 @@ Phase 1 complete in just 4 days! 🛡️
 - ✅ Authenticates with GitHub
 - ✅ Posts comments on PRs automatically!
 
+- ## Day 7 - 8 August 2026
+
+**What I did:**
+- Tried Claude API → needs payment ❌
+- Switched to Gemini API → hit daily rate limit ❌
+- Switched to Groq API → WORKS PERFECTLY! ✅
+- Phase 3 Complete! 🎉
+
+**AI APIs I tried:**
+
+Claude API (Anthropic):
+- Installed anthropic library
+- Got API key from console.anthropic.com
+- Error: "Credit balance too low" — needs minimum $5
+- Decided to find free alternative
+
+Gemini API (Google):
+- Installed google-generativeai library
+- Got free API key from aistudio.google.com
+- Error: gemini-1.5-flash model not found
+- Fixed: switched to gemini-2.0-flash
+- Error: Hit daily free tier rate limit
+- Decided to find better alternative
+
+Groq API (Final Choice ✅):
+- Installed groq library
+- Got free API key from groq.com
+- Error: llama3-8b-8192 model decommissioned
+- Fixed: switched to llama-3.3-70b-versatile
+- WORKED PERFECTLY! 🔥
+
+**What I learned:**
+- Claude API = best quality but paid
+- Gemini API = free but low rate limits
+- Groq API = free + fast + high limits = perfect for student projects!
+- Rate limiting = APIs have daily/minute request limits
+- Model names change over time — always check latest!
+- API key = password to access AI services
+- Never share API keys publicly!
+
+**Libraries installed today:**
+- pip install anthropic ✅
+- pip install google-generativeai ✅
+- pip install groq ✅
+
+**Big moment:**
+Bot posted its first REAL AI code review:
+- Overall assessment ✅
+- Issues found ✅
+- Suggestions for improvement ✅
+All automatically on a real GitHub PR! 🤖🎉
+
+**Current bot abilities:**
+- ✅ Receives GitHub webhooks
+- ✅ Authenticates with GitHub
+- ✅ Posts comments on PRs automatically
+- ✅ Reads actual code changes
+- ✅ AI reviews the code intelligently
+- ✅ Posts detailed review as PR comment
+
+**Errors fixed today:**
+- Claude API payment error → switched to free Gemini
+- Gemini model not found → updated model name
+- Gemini rate limit hit → switched to Groq
+- Groq model decommissioned → updated to llama-3.3-70b-versatile
+- ngrok stopped → restarted it
+- uvicorn stopped → restarted it
+
+**Phase 3 COMPLETE! 🎉**
+
 
 
 
