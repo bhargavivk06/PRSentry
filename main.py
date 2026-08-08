@@ -53,6 +53,15 @@ def check_issues(code_diff):
         issues.append("⚠️ Bare except clause found — catch specific exceptions!")
     
     return issues
+def get_complexity(additions, deletions, changed_files):
+    total_changes = additions + deletions
+    
+    if total_changes < 50 and changed_files <= 3:
+        return "🟢 Low — Easy to review!"
+    elif total_changes < 200 and changed_files <= 8:
+        return "🟡 Medium — Review carefully!"
+    else:
+        return "🔴 High — Consider splitting this PR!"
 @app.post("/webhook")
 async def webhook(request: Request):
     data = await request.json()
@@ -77,6 +86,7 @@ async def webhook(request: Request):
             if file.patch:
                 code_diff += file.patch
         issues = check_issues(code_diff)
+        complexity = get_complexity(additions, deletions, changed_files)
         response = groq_client.chat.completions.create(
            model="llama-3.3-70b-versatile",
             messages=[
@@ -111,6 +121,7 @@ Keep it short and helpful!"""
 ➕ Additions: {additions}
 ➖ Deletions: {deletions}
 🔤 Languages: {', '.join(languages)}
+📊 Complexity: {complexity}
 
 
 ⚠️ Issues Found:
