@@ -1,5 +1,7 @@
 # PRSentry - AI Code Review Bot
 #changes
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 from fastapi import FastAPI, Request
 from github import Github
 from dotenv import load_dotenv
@@ -16,9 +18,11 @@ groq_client = Groq(api_key=groq_key)
 
 app = FastAPI()
 
-@app.get("/")
-def home():
-    return {"message": "Bot is alive!"}
+templates = Jinja2Templates(directory="templates")
+
+@app.get("/", response_class=HTMLResponse)
+def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 def detect_language(files):
     extensions = {
