@@ -1,5 +1,4 @@
 # PRSentry - AI Code Review Bot
-#changes
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
