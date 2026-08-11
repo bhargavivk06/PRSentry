@@ -1,7 +1,8 @@
 # PRSentry - AI Code Review Bot
 #changes
-from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+
 from fastapi import FastAPI, Request
 from github import Github
 from dotenv import load_dotenv
@@ -19,7 +20,7 @@ groq_client = Groq(api_key=groq_key)
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="public"), name="static")
 
-templates = Jinja2Templates(directory="templates")
+#templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
 async def serve_landing_page():
