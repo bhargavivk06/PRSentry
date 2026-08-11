@@ -1,7 +1,7 @@
 # PRSentry - AI Code Review Bot
 #changes
-from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from fastapi import FastAPI, Request
 from github import Github
 from dotenv import load_dotenv
@@ -17,12 +17,14 @@ g = Github(token)
 groq_client = Groq(api_key=groq_key)
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="public"), name="static")
 
 templates = Jinja2Templates(directory="templates")
 
-@app.get("/", response_class=HTMLResponse)
-def home(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+@app.get("/")
+async def serve_landing_page():
+    # This assumes your HTML file is named index.html inside the public folder
+    return FileResponse("public/index.html")
 
 def detect_language(files):
     extensions = {
