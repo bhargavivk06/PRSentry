@@ -92,7 +92,8 @@ async def webhook(request: Request):
         complexity = get_complexity(additions, deletions, changed_files)
 
         response = groq_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            # 👇 THIS IS THE ONLY LINE THAT CHANGED 👇
+            model="qwen-3.6-27b",
             messages=[
                 {
                     "role": "user",
