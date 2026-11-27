@@ -2,4 +2,4 @@ fastapi
 uvicorn
 PyGithub
 python-dotenv
-groq
+google-genai
